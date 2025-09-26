@@ -1,8 +1,6 @@
 import hashlib
 import json
 
-filename = 'resultsTable.md'
-
 def write_validation_result(filename, text, provided_sha256, calculated_sha256, sha256_match, provided_md5, calculated_md5, md5_match):
     header = (
         "| String | Provided SHA256 | Calculated SHA256 | SHA256 Match | Provided MD5 | Calculated MD5 | MD5 Match |\n"
@@ -21,10 +19,11 @@ def write_validation_result(filename, text, provided_sha256, calculated_sha256, 
             f'| "{text}" | {provided_sha256} | {calculated_sha256} | {sha256_match} | {provided_md5} | {calculated_md5} | {md5_match} |\n'
         )
 
-with open('items.json', 'r') as f:
-    data = json.load(f)
+def validate_and_write_results(inputFile, outputFile):
 
-def validate_and_write_results(data, filename):
+    with open(inputFile, 'r') as f:
+        data = json.load(f)
+
     for item in data:
         text = item['string']
         provided_sha256 = item.get('SHA256', '')
@@ -34,7 +33,7 @@ def validate_and_write_results(data, filename):
         sha256_match = provided_sha256 == calculated_sha256
         md5_match = provided_md5 == calculated_md5
         write_validation_result(
-            filename,
+            outputFile,
             text,
             provided_sha256,
             calculated_sha256,
@@ -45,7 +44,8 @@ def validate_and_write_results(data, filename):
         )
 
 def main():
-    validate_and_write_results(data, filename)
+    outputFile = 'resultsTable.md'
+    validate_and_write_results('items.json', outputFile)
 
 if __name__ == "__main__":
     main()

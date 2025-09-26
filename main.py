@@ -1,7 +1,7 @@
 import hashlib
 import json
 
-filename = 'README.md'
+filename = 'resultsTable.md'
 
 def write_validation_result(filename, text, provided_sha256, calculated_sha256, sha256_match, provided_md5, calculated_md5, md5_match):
     header = (
